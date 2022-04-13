@@ -1,0 +1,3 @@
+[submodule "Assets/UnitySDK"]
+	path = Assets/UnitySDK
+	url = https://github.com/AvatarConnect/UnityWebGLDemo
