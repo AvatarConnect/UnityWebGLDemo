@@ -80,10 +80,49 @@
 			}
 			createUnityInstance(canvas, config, progressHandler).then(function (instance) {
 				canvas = instance.Module.canvas;
+				window.unityInstance = instance;
 				onResize();
 			});
 			window.addEventListener('resize', onResize);
 			onResize();
+
+			window.avatarConnectSDKInit = function(){
+				console.log('avatarConnectSDKInit');
+				window.avatarConnectConnector = new AvatarConnect([
+					['ready-player-me', { gateway: 'mona' }],
+					'crypto-avatars',
+					'meebits',
+				])
+
+				window.avatarConnectConnector.on('close', handleClose)
+				window.avatarConnectConnector.on('error', handleError)
+				window.avatarConnectConnector.on('result', handleResult)
+			}
+
+			window.avatarConnectSDKEnable = function(){
+				console.log('avatarConnectSDKEnable')
+				window.avatarConnectConnector.enable()
+			}
+
+			window.avatarConnectSDKDisable = function(){
+				console.log('disable')
+				window.avatarConnectConnector.disable()
+			}
+
+			function handleClose() {
+				console.log('close')
+				window.unityInstance.SendMessage('AvatarConnectBridge', 'HandleClose');
+			}
+
+			function handleError(error) {
+				console.log('error', error)
+				window.unityInstance.SendMessage('AvatarConnectBridge', 'HandleError', '' + error);
+			}
+
+			function handleResult(result) {
+				console.log('result', result)
+				window.unityInstance.SendMessage('AvatarConnectBridge', 'HandleResult', '' + result);
+			}
 		</script>
 	</div>
 </body>
