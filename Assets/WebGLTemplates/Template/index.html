@@ -94,9 +94,18 @@
 					'meebits',
 				])
 
-				window.avatarConnectConnector.on('close', handleClose)
-				window.avatarConnectConnector.on('error', handleError)
-				window.avatarConnectConnector.on('result', handleResult)
+				window.avatarConnectConnector.on('close', function() {
+					console.log('close')
+					window.unityInstance.SendMessage('AvatarConnectBridge', 'HandleClose');
+				})
+				window.avatarConnectConnector.on('error',(e) => function(error) {
+					console.log('error', error)
+					window.unityInstance.SendMessage('AvatarConnectBridge', 'HandleError', '' + error);
+				})
+				window.avatarConnectConnector.on('result',(r) => function(result) {
+					console.log('result', result)
+					window.unityInstance.SendMessage('AvatarConnectBridge', 'HandleResult', '' + result);
+				})
 			}
 
 			window.avatarConnectSDKEnable = function(){
@@ -109,17 +118,17 @@
 				window.avatarConnectConnector.disable()
 			}
 
-			function handleClose() {
+			window.AChandleClose = function() {
 				console.log('close')
 				window.unityInstance.SendMessage('AvatarConnectBridge', 'HandleClose');
 			}
 
-			function handleError(error) {
+			window.AChandleError = function(error) {
 				console.log('error', error)
 				window.unityInstance.SendMessage('AvatarConnectBridge', 'HandleError', '' + error);
 			}
 
-			function handleResult(result) {
+			window.AChandleResult = function(result) {
 				console.log('result', result)
 				window.unityInstance.SendMessage('AvatarConnectBridge', 'HandleResult', '' + result);
 			}
