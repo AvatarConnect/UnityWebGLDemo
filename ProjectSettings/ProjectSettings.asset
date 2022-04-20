@@ -343,7 +343,7 @@ PlayerSettings:
   m_TemplateCustomTags:
     AVATAR_CONNECT_MODAL_MAX_HEIGHT: 610
     BRIDGE_URL: http://localhost:8000
-    CRYPTO_AVATARS_API_KEY: 
+    CRYPTO_AVATARS_API_KEY: $2b$10$bvrUkk4VT5RpX61AZvJLXuNM0BkyqF0FekddOAjbNaeguSTSmDIU2
     OPTIMIZE_FOR_PIXEL_ART: 
     RPM_GATEWAY: mona
   mobileMTRendering:
