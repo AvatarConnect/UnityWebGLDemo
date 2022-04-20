@@ -341,9 +341,11 @@ PlayerSettings:
   openGLRequireES31AEP: 0
   openGLRequireES32: 0
   m_TemplateCustomTags:
-    BACKGROUND: '#000'
-    OPTIMIZE_FOR_PIXEL_ART: false
-    SCALE_TO_FIT: false
+    AVATAR_CONNECT_MODAL_MAX_HEIGHT: 610
+    BRIDGE_URL: http://localhost:8000
+    CRYPTO_AVATARS_API_KEY: 
+    OPTIMIZE_FOR_PIXEL_ART: 
+    RPM_GATEWAY: mona
   mobileMTRendering:
     Android: 1
     iPhone: 1
