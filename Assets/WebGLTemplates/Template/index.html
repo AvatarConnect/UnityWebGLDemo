@@ -8,7 +8,15 @@
 	<style>
 		html,
 		body {
-			background: {{{ BACKGROUND || '#000' }}};
+			background: {
+					{
+						{
+						BACKGROUND || '#000'
+					}
+				}
+			}
+
+			;
 			width: 100%;
 			height: 100%;
 			overflow: visible;
@@ -51,12 +59,12 @@
 				dataUrl: "Build/{{{ DATA_FILENAME }}}",
 				frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}",
 				codeUrl: "Build/{{{ CODE_FILENAME }}}",
-#if MEMORY_FILENAME
+				#if MEMORY_FILENAME
 				memoryUrl: "Build/{{{ MEMORY_FILENAME }}}",
-#endif
+				#endif
 #if SYMBOLS_FILENAME
 				symbolsUrl: "Build/{{{ SYMBOLS_FILENAME }}}",
-#endif
+				#endif
 				streamingAssetsUrl: "StreamingAssets",
 				companyName: "{{{ COMPANY_NAME }}}",
 				productName: "{{{ PRODUCT_NAME }}}",
@@ -86,51 +94,44 @@
 			window.addEventListener('resize', onResize);
 			onResize();
 
-			window.avatarConnectSDKInit = function(){
+			window.avatarConnectSDKInit = function () {
 				console.log('avatarConnectSDKInit');
-				window.avatarConnectConnector = new AvatarConnect([
-					['ready-player-me', { gateway: 'mona' }],
+				window.avatarConnectConnector = new AvatarConnect(
+				[
+					['ready-player-me', { gateway: {{{ RPM_GATEWAY }}} }],
+					[
 					'crypto-avatars',
+					{
+						apiKey:
+						'{{{ CRYPTO_AVATARS_API_KEY }}}',
+					},
+					],
 					'meebits',
-				])
+				],
+				{ bridgeUrl: '{{{ BRIDGE_URL }}}', maxHeight: {{{ AVATAR_CONNECT_MODAL_MAX_HEIGHT }}} }
+				);
 
-				window.avatarConnectConnector.on('close', function() {
-					console.log('close')
+				window.avatarConnectConnector.on('close', close => {
 					window.unityInstance.SendMessage('AvatarConnectBridge', 'HandleClose');
-				})
-				window.avatarConnectConnector.on('error',(e) => function(error) {
-					console.log('error', error)
-					window.unityInstance.SendMessage('AvatarConnectBridge', 'HandleError', '' + error);
-				})
-				window.avatarConnectConnector.on('result',(r) => function(result) {
-					console.log('result', result)
-					window.unityInstance.SendMessage('AvatarConnectBridge', 'HandleResult', '' + result);
-				})
+				});
+
+				window.avatarConnectConnector.on('error', result => {
+					window.unityInstance.SendMessage('AvatarConnectBridge', 'HandleError', JSON.stringify(error));
+				});
+				
+				window.avatarConnectConnector.on('result', result => {
+					window.unityInstance.SendMessage('AvatarConnectBridge', 'HandleResult', JSON.stringify(result));
+				});
 			}
 
-			window.avatarConnectSDKEnable = function(){
+			window.avatarConnectSDKEnable = function () {
 				console.log('avatarConnectSDKEnable')
 				window.avatarConnectConnector.enable()
 			}
 
-			window.avatarConnectSDKDisable = function(){
+			window.avatarConnectSDKDisable = function () {
 				console.log('disable')
 				window.avatarConnectConnector.disable()
-			}
-
-			window.AChandleClose = function() {
-				console.log('close')
-				window.unityInstance.SendMessage('AvatarConnectBridge', 'HandleClose');
-			}
-
-			window.AChandleError = function(error) {
-				console.log('error', error)
-				window.unityInstance.SendMessage('AvatarConnectBridge', 'HandleError', '' + error);
-			}
-
-			window.AChandleResult = function(result) {
-				console.log('result', result)
-				window.unityInstance.SendMessage('AvatarConnectBridge', 'HandleResult', '' + result);
 			}
 		</script>
 	</div>
