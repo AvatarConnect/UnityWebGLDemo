@@ -1,2 +1,2 @@
-# AvatarConnect Unity Webgl Demo
-TODO
+# AvatarConnect Unity Demo
+Example Avatar connect integration demo.
